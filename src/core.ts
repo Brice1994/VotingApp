@@ -1,6 +1,8 @@
-import { List, Map } from "immutable";
+import { fromJS, List, Map } from "immutable";
+
+export const INITIAL_STATE = Map();
 export function setEntries(state: Map<any, any>, entries: any) {
-  return state.set("entries", entries);
+  return state.set("entries", fromJS(entries));
 }
 
 function getWinners(vote?: Map<string, any>) {

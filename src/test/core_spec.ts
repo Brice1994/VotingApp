@@ -96,7 +96,6 @@ describe("application logic", () => {
         vote: Map({
           pair: List.of("Inception", "Borat"),
         }),
-        entries: List(),
       });
       const nextState = vote(state, "Inception");
       expect(nextState).to.equal(
@@ -107,7 +106,6 @@ describe("application logic", () => {
               Inception: 1,
             }),
           }),
-          entries: List(),
         })
       );
     });
