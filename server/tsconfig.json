@@ -15,11 +15,12 @@
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
     "module": "commonjs",
-    "outDir": "dist",
+    "outDir": "./dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": true,
     "jsx": "react",
   },
+  "include": ["src/**/*.ts"],
   "compileOnSave": true,
 }

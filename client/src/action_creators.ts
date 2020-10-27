@@ -7,7 +7,15 @@ export function setState(state: any) {
   
   export function vote(entry: any) {
     return {
+      meta: {remote: true},
       type: 'VOTE',
       entry
     };
+  }
+
+  export function next() {
+    return {
+      meta: {remote: true},
+      type: "NEXT"
+    }
   }

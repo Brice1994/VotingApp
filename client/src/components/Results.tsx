@@ -1,13 +1,15 @@
 import React from "react";
 import {connect} from 'react-redux';
 import Winner from "./Winner";
+import * as actionCreators from "../action_creators";
 export default class Results extends React.PureComponent<any> {
   getPair() {
     return this.props.pair || [];
   }
   getVotes(entry: string) {
-    if (this.props.tally && this.props.tally.has(entry)) {
-      return this.props.tally.get(entry);
+    console.log(this.props);
+    if (this.props.tally && this.props.tally.hasOwnProperty(entry)) {
+      return this.props.tally[entry];
     }
     return 0;
   }
@@ -42,4 +44,4 @@ function mapStateToProps(state: any) {
   }
 }
 
-export const ResultsContainer = connect(mapStateToProps)(Results);
+export const ResultsContainer = connect(mapStateToProps, actionCreators)(Results);

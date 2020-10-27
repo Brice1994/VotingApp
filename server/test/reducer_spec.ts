@@ -1,7 +1,7 @@
 import { Map, fromJS, List } from "immutable";
 import chai from "chai";
 import { expect } from "chai";
-const chaiImmutable = require("chai-immutable");
+import chaiImmutable from "chai-immutable";
 
 chai.use(chaiImmutable);
 
