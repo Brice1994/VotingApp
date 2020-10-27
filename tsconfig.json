@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "lib": [
       "dom",
       "dom.iterable",
@@ -13,13 +13,16 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
+    "isolatedModules": true,
+    "module": "ESNext",
+    "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
   },
+  "compileOnSave": true,
   "include": [
-    "src"
+    "src", "server/src/core.ts", "server/src/reducer.ts", "server/src/index.ts", "server/src/server.ts", "server/src/store.ts"
   ]
 }

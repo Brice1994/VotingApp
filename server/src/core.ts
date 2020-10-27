@@ -37,6 +37,10 @@ export function next(state: Map<any, any>) {
   }
 }
 
-export function vote(state: any, entry: any) {
-  return state.updateIn(["vote", "tally", entry], 0, (tally: any) => tally + 1);
+export function vote(voteState: any, entry: any) {
+  return voteState.updateIn(
+    ["tally", entry],
+    0,
+    (tally: any) => tally + 1
+  );
 }

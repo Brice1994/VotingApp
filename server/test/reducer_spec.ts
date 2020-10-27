@@ -6,7 +6,7 @@ import { is } from "immutable";
 
 chai.use(chaiImmutable);
 
-import reducer from "../reducer";
+import reducer from "../../src/reducer";
 describe("reducer", () => {
   it("handles SET_ENTRIES", () => {
     const initialState = Map();
@@ -33,22 +33,20 @@ describe("reducer", () => {
   it("handles VOTE", () => {
     const initialState = fromJS({
       vote: {
-        pair: ["Inception", "28 Days Later"],
+        pair: ['Trainspotting', '28 Days Later']
       },
-      entries: [],
+      entries: []
     });
-    const action = { type: "VOTE", entry: "Inception" };
+    const action = {type: 'VOTE', entry: 'Trainspotting'};
     const nextState = reducer(initialState, action);
 
-    expect(nextState).to.equal(
-      fromJS({
-        vote: {
-          pair: ["Inception", "28 Days Later"],
-          tally: { Inception: 1 },
-        },
-        entries: [],
-      })
-    );
+    expect(nextState).to.equal(fromJS({
+      vote: {
+        pair: ['Trainspotting', '28 Days Later'],
+        tally: {Trainspotting: 1}
+      },
+      entries: []
+    }));
   });
   it("has an initial state", () => {
     const action = { type: "SET_ENTRIES", entries: List.of("Trainspotting") };

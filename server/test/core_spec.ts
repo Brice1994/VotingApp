@@ -93,21 +93,15 @@ describe("application logic", () => {
   describe("vote", () => {
     it("creates a tally for the voted entry", () => {
       const state = Map({
-        vote: Map({
-          pair: List.of("Inception", "Borat"),
-        }),
+        pair: List.of('Trainspotting', '28 Days Later')
       });
-      const nextState = vote(state, "Inception");
-      expect(nextState).to.equal(
-        Map({
-          vote: Map({
-            pair: List.of("Inception", "Borat"),
-            tally: Map({
-              Inception: 1,
-            }),
-          }),
+      const nextState = vote(state, 'Trainspotting');
+      expect(nextState).to.equal(Map({
+        pair: List.of('Trainspotting', '28 Days Later'),
+        tally: Map({
+          'Trainspotting': 1
         })
-      );
+      }));
     });
   });
 });
