@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Route} from 'react-router';
+import {HashRouter} from "react-router-dom";
 import './index.css';
-import App from './App';
+import {Voting} from "./components/Voting"
 import reportWebVitals from './reportWebVitals';
+import Results from "./components/Results"
+import App from "./components/App";
 
+const routes = <div>
+<Route path="/results" component={Results}/>
+<Route path="/" component={App}/>
+<Route path="/voting" component={Results}/>
+  </div>
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <HashRouter>{routes}</HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -14,7 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
-    "module": "ESNext",
+    "module": "esnext",
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -22,7 +22,4 @@
     "jsx": "react",
   },
   "compileOnSave": true,
-  "include": [
-    "src", "server/src/core.ts", "server/src/reducer.ts", "server/src/index.ts", "server/src/server.ts", "server/src/store.ts"
-  ]
 }
