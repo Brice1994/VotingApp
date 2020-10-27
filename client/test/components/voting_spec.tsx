@@ -1,4 +1,4 @@
-import {Voting} from "../../src/components/Voting";
+
 import Vote from "../../src/components/Vote";
 import {shallow} from "enzyme";
 import { expect } from "chai";

@@ -1,23 +1,56 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Route} from 'react-router';
-import {HashRouter} from "react-router-dom";
-import './index.css';
-import {Voting} from "./components/Voting"
-import reportWebVitals from './reportWebVitals';
-import Results from "./components/Results"
+import React from "react";
+import ReactDOM from "react-dom";
+import { Route } from "react-router";
+import { HashRouter } from "react-router-dom";
+import "./index.css";
+import { VotingContainer } from "./components/Voting";
+import reportWebVitals from "./reportWebVitals";
 import App from "./components/App";
+import { createStore, applyMiddleware } from "redux";
+import reducer from "./reducer";
+import { Provider } from "react-redux";
+import {ResultsContainer} from "./components/Results";
+import remoteActionMiddleware from "./remote_action_middleware";
+import io from "socket.io-client";
 
-const routes = <div>
-<Route path="/results" component={Results}/>
-<Route path="/" component={App}/>
-<Route path="/voting" component={Results}/>
+import {setState} from './action_creators';
+
+// eslint-disable-next-line no-restricted-globals
+const socket = io(`${location.protocol}//${location.hostname}:8090`);
+socket.on('state', (state:any) =>
+  store.dispatch(setState(state))
+);
+
+const createStoreWithMiddleware = applyMiddleware(
+  remoteActionMiddleware(socket)
+)(createStore);
+const store = createStoreWithMiddleware(reducer);
+store.dispatch({
+  type: "SET_STATE",
+  state: {
+    vote: {
+      pair: ["Sunshine", "28 Days Later"],
+      tally: { Sunshine: 2 },
+    },
+  },
+});
+
+
+
+const routes = (
+  <div>
+    <Route path="/results" component={ResultsContainer} />
+    <Route component={App} />
+    <Route path="/" component={VotingContainer} />
   </div>
+);
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter>{routes}</HashRouter>
+    <Provider store={store}>
+      <HashRouter>{routes}</HashRouter>
+    </Provider>,
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

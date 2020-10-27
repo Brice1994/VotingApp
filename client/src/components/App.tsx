@@ -6,7 +6,9 @@ const tally = Map({"Trainspotting": 5, "28 Days Later": 4});
 export default class App extends React.Component<any>{
   render() {
     return (
-      <div>{this.props.children}</div>
+      <div>
+        {this.props.children}
+      </div>
     )
    }
 };
