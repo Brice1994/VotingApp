@@ -1,19 +1,25 @@
-import { fromJS, List, Map } from "immutable";
+export const INITIAL_STATE: ReadonlyMap<string,any> = new Map();
 
-export const INITIAL_STATE = Map();
-export function setEntries(state: Map<any, any>, entries: any) {
-  return state.set("entries", fromJS(entries));
+export function setEntries(state: Map<string, any>, listEntries: any): Map<string, any> {
+  let newState = new Map(state);
+  newState.set("listEntries", listEntries);
+  return newState;
 }
 
-function getWinners(vote?: Map<string, any>) {
-  if (!vote) {
-    return [];
+interface Vote {
+  pair: ReadonlyArray<string>;
+  tally: {[key:string]: number}
+}
+function getWinners(vote?: Vote): string[] {
+  if(!vote){
+    // no winners
+    return []; 
   }
-  const pair = vote.get("pair");
-  let a = pair.get(0);
-  let b = pair.get(1);
-  const aVotes = vote.getIn(["tally", a]);
-  const bVotes = vote.getIn(["tally", b]);
+  const pair = vote.pair;
+  let a = pair[0];
+  let b = pair[1];
+  const aVotes = vote.tally[a];
+  const bVotes = vote.tally[b];
   if (aVotes > bVotes) {
     return [a];
   }
@@ -22,25 +28,32 @@ function getWinners(vote?: Map<string, any>) {
   }
   return [a, b];
 }
-export function next(state: Map<any, any>) {
-  const entries = state.get("entries").concat(getWinners(state.get("vote")));
-  if (entries.size === 1) {
-    return state
-      .remove("vote")
-      .remove("entries")
-      .set("winner", entries.first());
-  } else {
-    return state.merge({
-      vote: Map({ pair: entries.take(2) }),
-      entries: entries.skip(2),
-    });
+interface CurrentState {
+  entries: string[];
+  vote?: {
+    pair: string[],
+    tally: {[key:string]: number}
   }
 }
-
-export function vote(voteState: any, entry: any) {
-  return voteState.updateIn(
-    ["tally", entry],
-    0,
-    (tally: any) => tally + 1
-  );
+export function next(state: CurrentState) {
+  const winners = getWinners(state.vote);
+  const entries = state.entries.concat(winners);
+  if (entries.length === 1) {
+    return {
+      winner: entries[0]
+    }
+  } else {
+    return {
+      vote: {pair: entries.slice(0,2)},
+      entries: entries.slice(2)
+    }
+  }
+}
+export function vote(voteState: {pair: string[], tally?: {[key:string]: number}}, entry: string) {
+  let {pair, tally = {}} = voteState;
+  tally[entry] = tally[entry] ? tally[entry] + 1 : 1;
+  return {
+    pair,
+    tally
+  }
 }

@@ -1,6 +1,7 @@
 import { Map, fromJS, List } from "immutable";
 import chai from "chai";
 import { expect } from "chai";
+//@ts-ignore
 import chaiImmutable from "chai-immutable";
 
 chai.use(chaiImmutable);
@@ -57,25 +58,6 @@ describe("reducer", () => {
     );
   });
 
-  it("handles SET_STATE", () => {
-    const initialState = Map();
-    const action = {
-      type: "SET_STATE",
-      state: Map({
-        vote: Map({
-          pair: List.of("Borat", "Inception"),
-          tally: Map({Inception: 1})
-        })
-      })
-    }
-    const nextState = reducer(initialState, action);
-    expect(nextState).to.equal(fromJS({
-      vote: {
-        pair: ['Borat', 'Inception'],
-        tally: {Inception: 1}
-      }
-    }))
-  });
   it("can be used with reduce", () => {
     const actions = [
       { type: "SET_ENTRIES", entries: ["Trainspotting", "28 Days Later"] },

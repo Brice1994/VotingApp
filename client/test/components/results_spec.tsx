@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {List, Map} from 'immutable';
 import {shallow} from "enzyme";
-import Results from '../../src/components/Results';
+// import Results from '../../src/components/Results';
 import {expect} from 'chai';
 
 import Adapter from 'enzyme-adapter-react-16'

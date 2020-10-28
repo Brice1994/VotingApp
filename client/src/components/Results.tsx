@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from 'react-redux';
 import Winner from "./Winner";
 import * as actionCreators from "../action_creators";
-export default class Results extends React.PureComponent<any> {
+class Results extends React.PureComponent<any> {
   getPair() {
     return this.props.pair || [];
   }

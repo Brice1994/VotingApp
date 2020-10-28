@@ -40,8 +40,8 @@ store.dispatch({
 const routes = (
   <div>
     <Route path="/results" component={ResultsContainer} />
-    <Route component={App} />
-    <Route path="/" component={VotingContainer} />
+    <Route path="/" component={App} />
+    <Route path="/voting" component={VotingContainer} />
   </div>
 );
 ReactDOM.render(

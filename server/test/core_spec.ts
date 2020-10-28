@@ -1,107 +1,101 @@
-import { List, Map } from "immutable";
 import { expect } from "chai";
 
-import { next, setEntries, vote } from "../src/core";
+import { next, vote } from "../src/core";
+
+export function setEntries(
+  state: Map<string, any>,
+  listEntries: any
+): Map<string, any> {
+  let newState = new Map(state);
+  newState.set("listEntries", listEntries);
+  return newState;
+}
 
 describe("application logic", () => {
   describe("setEntries", () => {
     it("adds the entries to the state", () => {
-      const state = Map();
-      const entries = List.of("Trainspotting", "28 Days Later");
+      const state = new Map();
+      const entries = ["Trainspotting", "28 Days Later"];
       const nextState = setEntries(state, entries);
-      expect(nextState).to.equal(
-        Map({
-          entries: List.of("Trainspotting", "28 Days Later"),
-        })
-      );
+
+      let curr = Object.fromEntries(nextState);
+      let next = { listEntries: ["Trainspotting", "28 Days Later"] };
+      expect(curr).to.deep.equal(next);
     });
   });
   describe("next", () => {
     it("should take the next two entries under vote", () => {
-      const state = Map({
-        entries: List.of("Inception", "Borat", "Fight Club"),
-      });
+      const state = { entries: ["Inception", "Borat", "Fight Club"] };
       const nextState = next(state);
-      expect(nextState).to.equal(
-        Map({
-          vote: Map({
-            pair: List.of("Inception", "Borat"),
-          }),
-          entries: List.of("Fight Club"),
-        })
-      );
+      expect(nextState).to.deep.equal({
+        vote: {
+          pair: ["Inception", "Borat"],
+        },
+        entries: ["Fight Club"],
+      });
     });
     it("puts winner of current vote back to entries", () => {
-      const state = Map({
-        vote: Map({
-          pair: List.of("Trainspotting", "28 Days Later"),
-          tally: Map({
+      const state = {
+        vote: {
+          pair: ["Trainspotting", "28 Days Later"],
+          tally: {
             Trainspotting: 4,
             "28 Days Later": 2,
-          }),
-        }),
-        entries: List.of("Sunshine", "Millions", "127 Hours"),
-      });
+          },
+        },
+        entries: ["Sunshine", "Millions", "127 Hours"],
+      };
       const nextState = next(state);
-      expect(nextState).to.equal(
-        Map({
-          vote: Map({
-            pair: List.of("Sunshine", "Millions"),
-          }),
-          entries: List.of("127 Hours", "Trainspotting"),
-        })
-      );
+      expect(nextState).to.deep.equal({
+        vote: {
+          pair: ["Sunshine", "Millions"],
+        },
+        entries: ["127 Hours", "Trainspotting"],
+      });
     });
     it("puts both from tied vote back to entries", () => {
-      const state = Map({
-        vote: Map({
-          pair: List.of("Inception", "Borat"),
-          tally: Map({
-            Inception: 3,
-            Borat: 3,
-          }),
-        }),
-        entries: List.of("Cool Runnings", "21 Jumpstreet", "Avatar"),
-      });
+      const state = {
+        vote: {
+          pair: ["Inception", "Borat"],
+          tally: { Inception: 3, Borat: 3 },
+        },
+        entries: ["Cool Runnings", "21 Jumpstreet", "Avatar"],
+      };
       const nextState = next(state);
-      expect(nextState).to.equal(
-        Map({
-          vote: Map({
-            pair: List.of("Cool Runnings", "21 Jumpstreet"),
-          }),
-          entries: List.of("Avatar", "Inception", "Borat"),
-        })
-      );
+      expect(nextState).to.deep.equal({
+        vote: {
+          pair: ["Cool Runnings", "21 Jumpstreet"],
+        },  
+        entries: ["Avatar", "Inception", "Borat"]
+      });
     });
     it("marks a winner when theres only 1 choice left", () => {
-        const state = Map({
-            vote: Map({
-                pair: List.of("Inception", "Borat"),
-                tally: Map({
-                    Inception: "10",
-                    Borat: "2"
-                })
-            }),
-            entries: List()
-        });
-        const nextState = next(state);
-        expect(nextState).to.be.equal(Map({
-            winner: "Inception"
-        }))
+      const state = {
+        vote: {
+          pair: ["Inception", "Borat"],
+          tally: {
+            Inception: 10,
+            Borat: 2,
+          },
+        },
+        entries: [],
+      };
+      const nextState = next(state);
+      expect(nextState).to.deep.equal({ winner: "Inception" });
     });
   });
   describe("vote", () => {
     it("creates a tally for the voted entry", () => {
-      const state = Map({
-        pair: List.of('Trainspotting', '28 Days Later')
-      });
-      const nextState = vote(state, 'Trainspotting');
-      expect(nextState).to.equal(Map({
-        pair: List.of('Trainspotting', '28 Days Later'),
-        tally: Map({
-          'Trainspotting': 1
-        })
-      }));
+      const state = {
+        pair: ["Trainspotting", "28 Days Later"],
+      };
+      const nextState = vote(state, "Trainspotting");
+      expect(nextState).to.deep.equal(
+        {
+          pair: ["Trainspotting", "28 Days Later"],
+          tally: {Trainspotting: 1}
+        }
+      );
     });
   });
 });

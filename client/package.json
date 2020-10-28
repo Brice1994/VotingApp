@@ -2,6 +2,7 @@
   "name": "voting-app",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@types/immutable": "^3.8.7",
     "@types/jest": "^26.0.15",
