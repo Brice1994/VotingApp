@@ -9,7 +9,7 @@ chai.use(chaiImmutable);
 import reducer from "../src/reducer";
 describe("reducer", () => {
   it("handles SET_ENTRIES", () => {
-    const initialState = Map();
+    const initialState = {};
     const action = { type: "SET_ENTRIES", entries: List.of("Trainspotting") };
     const nextState = reducer(initialState, action);
     expect(nextState).to.have.key("entries");

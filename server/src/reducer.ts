@@ -13,7 +13,13 @@ export default function reducer(state = INITIAL_STATE, action: Action) {
     case "NEXT":
       return next(state);
     case "VOTE":
-      return state.update("vote", (voteState) => vote(voteState, action.entry));
+      if(!state.vote){
+        return;
+      }
+      const newState = {...state};
+      newState.vote = vote(state.vote, action.entry);
+      return newState;
+      // return state.update("vote", (voteState) => vote(voteState, action.entry));
     default:
       return state;
   }

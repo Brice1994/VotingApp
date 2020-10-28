@@ -1,8 +1,8 @@
-export const INITIAL_STATE: ReadonlyMap<string,any> = new Map();
+export const INITIAL_STATE: {entries: string[], vote?: Vote} = {entries:[]};
 
-export function setEntries(state: Map<string, any>, listEntries: any): Map<string, any> {
-  let newState = new Map(state);
-  newState.set("listEntries", listEntries);
+export function setEntries(state: {entries?: string[]}, entries: string[]): {} {
+  let newState = {...state};
+  newState.entries = entries;
   return newState;
 }
 
@@ -31,7 +31,7 @@ function getWinners(vote?: Vote): string[] {
 interface CurrentState {
   entries: string[];
   vote?: {
-    pair: string[],
+    pair: ReadonlyArray<string>,
     tally: {[key:string]: number}
   }
 }
@@ -49,7 +49,7 @@ export function next(state: CurrentState) {
     }
   }
 }
-export function vote(voteState: {pair: string[], tally?: {[key:string]: number}}, entry: string) {
+export function vote(voteState: Vote, entry: string) {
   let {pair, tally = {}} = voteState;
   tally[entry] = tally[entry] ? tally[entry] + 1 : 1;
   return {
