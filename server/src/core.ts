@@ -54,14 +54,20 @@ export function next(state: CurrentState) {
     }
   }
 }
-export function vote(voteState: {
-  pair: ReadonlyArray<string>;
-  tally?: {[key:string]: number}
-}, entry: string) {
-  let {pair, tally = {}} = voteState;
-  tally[entry] = tally[entry] ? tally[entry] + 1 : 1;
-  return {
-    pair,
-    tally
-  }
+
+export function vote(entries: Set<string>, entry: string){
+  const newEntries = new Set(entries);
+  newEntries.delete(entry);
+  return newEntries;
 }
+// export function vote(voteState: {
+//   pair: ReadonlyArray<string>;
+//   tally?: {[key:string]: number}
+// }, entry: string) {
+//   let {pair, tally = {}} = voteState;
+//   tally[entry] = tally[entry] ? tally[entry] + 1 : 1;
+//   return {
+//     pair,
+//     tally
+//   }
+// }
