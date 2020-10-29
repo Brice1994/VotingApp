@@ -1,4 +1,4 @@
-export const INITIAL_STATE: {entries: string[], vote?: Vote} = {entries:[]};
+export const INITIAL_STATE: {entries?: string[], vote?: any, tally?: any} = {};
 
 export function setEntries(state: {entries?: string[]}, entries: string[]): {} {
   let newState = {...state};
@@ -6,18 +6,20 @@ export function setEntries(state: {entries?: string[]}, entries: string[]): {} {
   return newState;
 }
 
-interface Vote {
-  pair: ReadonlyArray<string>;
-  tally: {[key:string]: number}
-}
-function getWinners(vote?: Vote): string[] {
+function getWinners(vote?: any): string[] {
   if(!vote){
     // no winners
     return []; 
   }
   const pair = vote.pair;
+  if(pair.length == 1){
+    return [pair[0]];
+  }
   let a = pair[0];
   let b = pair[1];
+  if(!vote.tally){
+    return [];
+  }
   const aVotes = vote.tally[a];
   const bVotes = vote.tally[b];
   if (aVotes > bVotes) {
@@ -29,13 +31,16 @@ function getWinners(vote?: Vote): string[] {
   return [a, b];
 }
 interface CurrentState {
-  entries: string[];
+  entries?: string[];
   vote?: {
     pair: ReadonlyArray<string>,
     tally: {[key:string]: number}
   }
 }
 export function next(state: CurrentState) {
+  if(!state.entries){
+    return state;
+  }
   const winners = getWinners(state.vote);
   const entries = state.entries.concat(winners);
   if (entries.length === 1) {
@@ -49,7 +54,10 @@ export function next(state: CurrentState) {
     }
   }
 }
-export function vote(voteState: Vote, entry: string) {
+export function vote(voteState: {
+  pair: ReadonlyArray<string>;
+  tally?: {[key:string]: number}
+}, entry: string) {
   let {pair, tally = {}} = voteState;
   tally[entry] = tally[entry] ? tally[entry] + 1 : 1;
   return {

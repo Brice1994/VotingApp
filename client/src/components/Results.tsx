@@ -38,9 +38,9 @@ class Results extends React.PureComponent<any> {
 }
 function mapStateToProps(state: any) {
   return {
-    pair: state.getIn(['vote', 'pair']),
-    tally: state.getIn(['vote', 'tally']),
-    winner: state.get('winner')
+    pair: state.vote.pair,
+    tally: state.vote.tally,
+    winner: state.winner
   }
 }
 

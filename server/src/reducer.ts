@@ -6,7 +6,7 @@ interface Action {
   type: "SET_ENTRIES" |"NEXT" | "VOTE" | string;
 }
 
-export default function reducer(state = INITIAL_STATE, action: Action) {
+export default function reducer(state = INITIAL_STATE, action: Action): any {
   switch (action.type) {
     case "SET_ENTRIES":
       return setEntries(state, action.entries);
@@ -19,7 +19,6 @@ export default function reducer(state = INITIAL_STATE, action: Action) {
       const newState = {...state};
       newState.vote = vote(state.vote, action.entry);
       return newState;
-      // return state.update("vote", (voteState) => vote(voteState, action.entry));
     default:
       return state;
   }

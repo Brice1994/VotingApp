@@ -1,78 +1,68 @@
-import { Map, fromJS, List } from "immutable";
-import chai from "chai";
 import { expect } from "chai";
-//@ts-ignore
-import chaiImmutable from "chai-immutable";
-
-chai.use(chaiImmutable);
 
 import reducer from "../src/reducer";
 describe("reducer", () => {
   it("handles SET_ENTRIES", () => {
-    const initialState = {};
-    const action = { type: "SET_ENTRIES", entries: List.of("Trainspotting") };
+    const initialState = undefined;
+    const action = { type: "SET_ENTRIES", entries: ["Trainspotting"] };
     const nextState = reducer(initialState, action);
     expect(nextState).to.have.key("entries");
-    expect(nextState.get("entries")).to.equal(fromJS(["Trainspotting"]));
+    expect(nextState.entries).to.deep.equal(["Trainspotting"]);
   });
   it("handles NEXT", () => {
-    const initialState = fromJS({
+    const initialState = {
       entries: ["Trainspotting", "28 Days Later"],
-    });
+    };
     const action = { type: "NEXT" };
     const nextState = reducer(initialState, action);
-    expect(nextState).to.equal(
-      fromJS({
-        vote: {
-          pair: ["Trainspotting", "28 Days Later"],
-        },
-        entries: [],
-      })
-    );
+    expect(nextState).to.deep.equal({
+      vote: {
+        pair: ["Trainspotting", "28 Days Later"],
+      },
+      entries: [],
+    });
   });
   it("handles VOTE", () => {
-    const initialState = fromJS({
+    const initialState = {
       vote: {
-        pair: ['Trainspotting', '28 Days Later']
+        pair: ["Trainspotting", "28 Days Later"],
       },
-      entries: []
-    });
-    const action = {type: 'VOTE', entry: 'Trainspotting'};
+      entries: [],
+    };
+    const action = { type: "VOTE", entry: "Trainspotting" };
     const nextState = reducer(initialState, action);
 
-    expect(nextState).to.equal(fromJS({
+    expect(nextState).to.deep.equal({
       vote: {
-        pair: ['Trainspotting', '28 Days Later'],
-        tally: {Trainspotting: 1}
+        pair: ["Trainspotting", "28 Days Later"],
+        tally: { Trainspotting: 1 },
       },
-      entries: []
-    }));
+      entries: [],
+    });
   });
   it("has an initial state", () => {
-    const action = { type: "SET_ENTRIES", entries: List.of("Trainspotting") };
+    const action = { type: "SET_ENTRIES", entries: ["Trainspotting"] };
     const nextState = reducer(undefined, action);
-    expect(nextState).to.equal(
-      fromJS({
-        entries: ["Trainspotting"],
-      })
-    );
+    expect(nextState).to.deep.equal({
+      entries: ["Trainspotting"],
+    });
   });
 
   it("can be used with reduce", () => {
     const actions = [
-      { type: "SET_ENTRIES", entries: ["Trainspotting", "28 Days Later"] },
+      {
+        type: "SET_ENTRIES",
+        entries: ["Trainspotting", "28 Days Later"],
+      },
       { type: "NEXT" },
       { type: "VOTE", entry: "Trainspotting" },
       { type: "VOTE", entry: "28 Days Later" },
       { type: "VOTE", entry: "Trainspotting" },
       { type: "NEXT" },
     ];
-    const finalState = actions.reduce(reducer, Map());
-
-    expect(finalState).to.equal(
-      fromJS({
-        winner: "Trainspotting",
-      })
-    );
+    const finalState = actions.reduce(reducer, {});
+    expect(finalState).to.deep.equal({
+      winner: "Trainspotting",
+    });
   });
 });

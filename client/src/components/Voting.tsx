@@ -19,9 +19,9 @@ export class Voting extends React.PureComponent<any> {
 }
 function mapStateToProps(state: any) {
   return {
-    pair: state.getIn(["vote", "pair"]),
-    winner: state.get("winner"),
-    hasVoted: state.get("hasVoted"),
+    pair: state.vote.pair,
+    winner: state.winner,
+    hasVoted: state.hasVoted,
   };
 }
 export const VotingContainer = connect(
