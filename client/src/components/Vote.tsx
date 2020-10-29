@@ -1,11 +1,8 @@
 import React from "react";
 
 export default class Vote extends React.PureComponent<any> {
-  getEntries() {
+  getEntries(): string[] {
     return this.props.entries || [];
-  }
-  hasVotedFor(entry: any) {
-    return this.props.hasVoted === entry;
   }
   render() {
     return (
@@ -14,8 +11,6 @@ export default class Vote extends React.PureComponent<any> {
         <button key={entry}
                 onClick={() => this.props.vote(entry)}>
           <h1>{entry}</h1>
-          {this.hasVotedFor(entry) ?
-            <div className="label">Voted</div> : null}
         </button>
       )}
     </div>

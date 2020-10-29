@@ -9,7 +9,6 @@ import App from "./components/App";
 import { createStore, applyMiddleware } from "redux";
 import reducer from "./reducer";
 import { Provider } from "react-redux";
-import {ResultsContainer} from "./components/Results";
 import remoteActionMiddleware from "./remote_action_middleware";
 import io from "socket.io-client";
 
@@ -39,7 +38,6 @@ store.dispatch({
 
 const routes = (
   <div>
-    <Route path="/results" component={ResultsContainer} />
     <Route path="/" component={App} />
     <Route path="/voting" component={VotingContainer} />
   </div>
