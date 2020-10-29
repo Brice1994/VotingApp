@@ -1,11 +1,8 @@
 import React from "react";
 
 export default class Vote extends React.PureComponent<any> {
-  getPair() {
-    return this.props.pair || [];
-  }
-  isDisabled() {
-    return !!this.props.hasVoted;
+  getEntries() {
+    return this.props.entries || [];
   }
   hasVotedFor(entry: any) {
     return this.props.hasVoted === entry;
@@ -13,9 +10,8 @@ export default class Vote extends React.PureComponent<any> {
   render() {
     return (
       <div className="voting">
-      {this.getPair().map((entry:string) =>
+      {this.getEntries().map((entry:string) =>
         <button key={entry}
-                disabled={this.isDisabled()}
                 onClick={() => this.props.vote(entry)}>
           <h1>{entry}</h1>
           {this.hasVotedFor(entry) ?

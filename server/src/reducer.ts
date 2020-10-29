@@ -13,11 +13,8 @@ export default function reducer(state = INITIAL_STATE, action: Action): any {
     case "NEXT":
       return next(state);
     case "VOTE":
-      if(!state.vote){
-        return;
-      }
       const newState = {...state};
-      newState.vote = vote(state.vote, action.entry);
+      newState.entries = vote(state.entries, action.entry);
       return newState;
     default:
       return state;
